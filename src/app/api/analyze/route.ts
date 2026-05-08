@@ -24,10 +24,10 @@ export async function POST(req: NextRequest) {
     for (const candidate of pending) {
       try {
         const result = await analyzeResume(
-          candidate.resume_text,
-          job.description,
-          job.requirements,
-          job.skills_required
+          candidate.resume_text as string,
+          job.description as string,
+          job.requirements as string,
+          job.skills_required as string
         );
 
         const [updated] = await sql`

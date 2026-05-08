@@ -10,14 +10,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'candidateIds and jobId required' }, { status: 400 });
     }
 
-    const [job] = await sql`SELECT * FROM job_descriptions WHERE id = ${parseInt(jobId)}`;
+    const [job] = await sql`SELECT * FROM job_descriptions WHERE id = ${parseInt(jobId)}` as { title: string }[];
     if (!job) return NextResponse.json({ error: 'Job not found' }, { status: 404 });
 
     const companyName = process.env.COMPANY_NAME || 'Our Company';
     const results = [];
 
     for (const candidateId of candidateIds) {
-      const [candidate] = await sql`SELECT * FROM candidates WHERE id = ${parseInt(candidateId)}`;
+      const [candidate] = await sql`SELECT * FROM candidates WHERE id = ${parseInt(candidateId)}` as { name: string; email: string }[];
 
       if (!candidate?.email) {
         results.push({ candidateId, status: 'failed', reason: 'No email address found in resume' });
@@ -44,11 +44,11 @@ export async function POST(req: NextRequest) {
             SELECT * FROM interviews WHERE candidate_id = ${parseInt(candidateId)} ORDER BY created_at DESC LIMIT 1
           `;
           if (interview?.scheduled_date) {
-            dateStr = new Date(interview.scheduled_date).toLocaleDateString('en-IN', {
+            dateStr = new Date(interview.scheduled_date as string).toLocaleDateString('en-IN', {
               weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
             });
-            timeStr = interview.scheduled_time ?? 'To Be Confirmed';
-            link = interview.meeting_link ?? '';
+            timeStr = (interview.scheduled_time as string) ?? 'To Be Confirmed';
+            link = (interview.meeting_link as string) ?? '';
           }
         }
 

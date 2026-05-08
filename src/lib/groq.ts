@@ -1,6 +1,10 @@
 import Groq from 'groq-sdk';
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+let _groq: Groq | null = null;
+const getGroq = () => {
+  if (!_groq) _groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  return _groq;
+};
 
 export interface CandidateAnalysis {
   name: string;
@@ -59,7 +63,7 @@ Scoring criteria (0–100):
 - Education alignment: 15 points
 - Overall profile quality: 15 points`;
 
-  const completion = await groq.chat.completions.create({
+  const completion = await getGroq().chat.completions.create({
     messages: [{ role: 'user', content: prompt }],
     model: 'llama-3.3-70b-versatile',
     temperature: 0.1,
