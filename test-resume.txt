@@ -1,0 +1,16 @@
+John Doe
+Email: john.doe@email.com
+Phone: +1-555-0123
+
+SUMMARY
+Senior Frontend Developer with 4 years of experience in React, TypeScript, and Next.js.
+
+SKILLS
+React, TypeScript, Next.js, Tailwind CSS, REST APIs, Git, Node.js
+
+EXPERIENCE
+Frontend Developer - TechCorp (2020-2024)
+Built scalable web applications using React and TypeScript.
+
+EDUCATION
+B.Tech Computer Science - IIT Delhi (2016-2020)
